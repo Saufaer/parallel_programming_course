@@ -1,12 +1,11 @@
 ﻿// Copyright 2019 Lalykin Oleg
 
-
 #include <omp.h>
 #include <iostream>
 #include <string>
 
 class Task {
- public:
+public:
     union Int32 {
         int x;
         unsigned char bytes[4];
@@ -57,7 +56,8 @@ class Task {
             if (tmp[a].x <= rightArr[b].x) {
                 arr[i] = tmp[a];
                 a += 2;
-            } else {
+            }
+            else {
                 arr[i] = rightArr[b];
             }
             b += 2;
@@ -67,7 +67,8 @@ class Task {
             for (int j = b; j < right; j += 2, i += 2) {
                 arr[i] = rightArr[j];
             }
-        } else {
+        }
+        else {
             for (int j = a; j < left; j += 2, i += 2) {
                 arr[i] = tmp[j];
             }
@@ -127,7 +128,8 @@ class Task {
         }
         if (f) {
             std::cout << "\n\n CORRECT \n";
-        } else {
+        }
+        else {
             std::cout << "\n\n FALSE \n";
         }
     }
