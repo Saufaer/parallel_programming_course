@@ -1,10 +1,11 @@
-﻿// Copyright 2019 Lalykin Oleg
+﻿//Copyright 2019 Lalykin Oleg
 
 #include <omp.h>
 #include <iostream>
 #include <string>
 
 class Task {
+
 public:
     union Int32 {
         int x;
@@ -24,7 +25,7 @@ public:
         listS = new union Int32[Size];
 
         for (i = 0; i < Size; i++) {
-            listS[i].x = list[i].x = rand() % 50 - 10;
+            listS[i].x = list[i].x = std::rand() % 50 - 10;
         }
 
         threads = atoi(argv[2]);
@@ -44,7 +45,7 @@ public:
 
     void  SortSubsequence(int sign, union Int32* arr, union Int32* tmp, int left, int right) {
         for (int i = sign; i < left; i += 2) {
-            tmp[i] = arr[i]; 
+            tmp[i] = arr[i];
         }
         union Int32* rightArr = arr + left;
 
@@ -57,21 +58,19 @@ public:
                 arr[i] = tmp[a];
                 a += 2;
             }
-            else {
+            else
                 arr[i] = rightArr[b];
                 b += 2;
-            }
             i += 2;
         }
         if (a == left) {
-            for (int j = b; j < right; j += 2, i += 2) { 
-                arr[i] = rightArr[j]; 
+            for (int j = b; j < right; j += 2, i += 2) {
+                arr[i] = rightArr[j];
             }
         }
-        else {
-            for (int j = a; j < left; j += 2, i += 2) { 
-                arr[i] = tmp[j]; 
-            }
+        else
+            for (int j = a; j < left; j += 2, i += 2) {
+                arr[i] = tmp[j];
         }
     }
 
@@ -87,7 +86,6 @@ public:
     }
 
     void merge(union Int32* list, int size, int * step, int threads)
-
     {
         union Int32* tmp = new union Int32[size + 1];
         int i;
@@ -131,9 +129,8 @@ public:
         if (f) { 
             std::cout << "\n\n CORRECT \n";
         }
-        else { 
+        else
             std::cout << "\n\n FALSE \n";
-        }
     }
 
     void PrintList(std::string str, union Int32* arr, int size) {
