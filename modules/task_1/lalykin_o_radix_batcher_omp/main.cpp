@@ -1,5 +1,4 @@
 ﻿// Copyright 2019 Lalykin Oleg
-
 #include <omp.h>
 #include <iostream>
 #include <string>
