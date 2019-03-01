@@ -1,4 +1,4 @@
-﻿//Copyright 2019 Lalykin Oleg
+﻿// Copyright 2019 Lalykin Oleg
 
 #include <omp.h>
 #include <iostream>
@@ -74,8 +74,7 @@ public:
         }
     }
 
-    void PairComparison(union Int32* arr, int size)
-    {
+    void PairComparison(union Int32* arr, int size) {
         for (int i = 1; i < (size + 1) / 2; i++) {
             if (arr[2 * i].x < arr[2 * i - 1].x) {
                 int tmp = arr[2 * i - 1].x;
@@ -85,8 +84,7 @@ public:
         }
     }
 
-    void merge(union Int32* list, int size, int * step, int threads)
-    {
+    void merge(union Int32* list, int size, int * step, int threads) {
         union Int32* tmp = new union Int32[size + 1];
         int i;
         int level = threads;
@@ -98,7 +96,8 @@ public:
         while ((level != 1)) {
             for (i = 0; i < level; i++) {
                 int t = i % 2;
-                SortSubsequence(t, list + step[i - t], tmp + step[i], step[i + (1 - t)] - step[i - t], step[i + 1 + (1 - t)] - step[i + (1 - t)]);
+                SortSubsequence(t, list + step[i - t], tmp + step[i],
+                step[i + (1 - t)] - step[i - t], step[i + 1 + (1 - t)] - step[i + (1 - t)]);
             }
             for (i = 0; i < level; i++) {
                 if (i % 2 != 0) {
@@ -126,7 +125,7 @@ public:
                 f = false;
             }
         }
-        if (f) { 
+        if (f) {
             std::cout << "\n\n CORRECT \n";
         }
         else
@@ -172,7 +171,7 @@ public:
 
     void radix_sort(union Int32* arr, int left, int right) {
         int i;
-        unsigned *subArr = (unsigned*)arr;
+        unsigned *subArr = reinterpret_cast<unsigned*>(arr);
         for (i = left; i < right; i++) {
             subArr[i] = subArr[i] ^ INT_MIN;
         }
@@ -184,8 +183,7 @@ public:
         }
     }
 
-    void RunTask(char **argv)
-    {
+    void RunTask(char **argv){
         initialization(argv);
         PrintList(" Input: ", list, Size);
         PrintSteps(Step, threads);
@@ -200,7 +198,6 @@ public:
         Check(list, Size);
         Destructor();
     }
-
 };
 int main(int argc, char **argv) {
     Task t;
