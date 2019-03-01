@@ -1,12 +1,12 @@
 ﻿// Copyright 2019 Lalykin Oleg
 
+
 #include <omp.h>
 #include <iostream>
 #include <string>
 
 class Task {
-
-public:
+ public:
     union Int32 {
         int x;
         unsigned char bytes[4];
@@ -57,20 +57,20 @@ public:
             if (tmp[a].x <= rightArr[b].x) {
                 arr[i] = tmp[a];
                 a += 2;
-            }
-            else
+            } else {
                 arr[i] = rightArr[b];
-                b += 2;
+            }
+            b += 2;
             i += 2;
         }
         if (a == left) {
             for (int j = b; j < right; j += 2, i += 2) {
                 arr[i] = rightArr[j];
             }
-        }
-        else
+        } else {
             for (int j = a; j < left; j += 2, i += 2) {
                 arr[i] = tmp[j];
+            }
         }
     }
 
@@ -97,7 +97,7 @@ public:
             for (i = 0; i < level; i++) {
                 int t = i % 2;
                 SortSubsequence(t, list + step[i - t], tmp + step[i],
-                step[i + (1 - t)] - step[i - t], step[i + 1 + (1 - t)] - step[i + (1 - t)]);
+                    step[i + (1 - t)] - step[i - t], step[i + 1 + (1 - t)] - step[i + (1 - t)]);
             }
             for (i = 0; i < level; i++) {
                 if (i % 2 != 0) {
@@ -127,9 +127,9 @@ public:
         }
         if (f) {
             std::cout << "\n\n CORRECT \n";
-        }
-        else
+        } else {
             std::cout << "\n\n FALSE \n";
+        }
     }
 
     void PrintList(std::string str, union Int32* arr, int size) {
@@ -146,7 +146,6 @@ public:
         for (int j = 0; j < threads + 1; j++) {
             std::cout << "=>" << step[j];
         }
-
     }
 
     void radix_sort_byte(union Int32* arr, int left, int right, int numByte, const int base) {
@@ -183,7 +182,7 @@ public:
         }
     }
 
-    void RunTask(char **argv){
+    void RunTask(char **argv) {
         initialization(argv);
         PrintList(" Input: ", list, Size);
         PrintSteps(Step, threads);
