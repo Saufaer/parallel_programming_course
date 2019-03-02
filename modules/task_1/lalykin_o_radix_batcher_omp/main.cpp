@@ -195,13 +195,44 @@ class Task {
         Check(list, Size);
         Destructor();
     }
+
+    void RunDefault() {
+        int i;
+        Size = 30;
+
+        list = new union Int32[Size];
+
+        for (i = 0; i < Size; i++) {
+            list[i].x = std::rand() % 50 - 10;
+        }
+
+        threads = 4;
+        Step = new int[threads + 1];
+
+        for (i = 0; i < threads; i++) {
+            Step[i] = i * Size / threads + (i * Size / threads) % 2;
+        }
+        Step[threads] = Size;
+        PrintList(" Input: ", list, Size);
+        PrintSteps(Step, threads);
+        for (int i = 0; i < threads; i++) {
+            radix_sort(list, Step[i], Step[i + 1]);
+        }
+        PrintList(" After radix: ", list, Size);
+        if (threads > 1) {
+            merge(list, Size, Step, threads);
+        }
+        PrintList(" After merge: ", list, Size);
+        Check(list, Size);
+        Destructor();
+    }   
 };
 int main(int argc, char **argv) {
     Task t;
     if (argc == 3) {
         t.RunTask(argv);
     } else {
-        std::cout << "Command line : <project> <size> <threads>\n";
+        t.RunDefault();
     }
     return 0;
 }
