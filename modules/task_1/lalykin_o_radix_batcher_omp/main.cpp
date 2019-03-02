@@ -225,7 +225,7 @@ class Task {
         PrintList(" After merge: ", list, Size);
         Check(list, Size);
         Destructor();
-    }   
+    }
 };
 int main(int argc, char **argv) {
     Task t;
