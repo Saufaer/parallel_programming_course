@@ -1,4 +1,4 @@
-set(PROJECT_NAME "lalykin_o_radix_batcher_omp")
+set(PROJECT_NAME "kutovoi_v_rectangle_integr_omp")
 
 if ( USE_OMP )
     project( ${PROJECT_NAME} )
@@ -6,4 +6,4 @@ if ( USE_OMP )
     add_executable( ${PROJECT_NAME} main.cpp )
 else( USE_OMP )
     message( STATUS "-- ${PROJECT_NAME} - NOT BUILD!"  )
-endif( USE_OMP )
+endif( USE_OMP ) 
