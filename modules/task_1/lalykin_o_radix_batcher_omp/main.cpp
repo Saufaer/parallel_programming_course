@@ -1,4 +1,4 @@
-// Copyright 2019 Lalykin Oleg
+﻿// Copyright 2019 Lalykin Oleg
 
 #include <omp.h>
 #include <iostream>
@@ -11,7 +11,6 @@ class Task {
         unsigned char bytes[4];
     };
     union Int32 *list;
-    union Int32 *listS;
     int *Step;
     int Size;
     int threads;
@@ -21,10 +20,9 @@ class Task {
         Size = atoi(argv[1]);
 
         list = new union Int32[Size];
-        listS = new union Int32[Size];
 
         for (i = 0; i < Size; i++) {
-            listS[i].x = list[i].x = std::rand() % 50 - 10;
+            list[i].x = std::rand() % 50 - 10;
         }
 
         threads = atoi(argv[2]);
@@ -39,7 +37,6 @@ class Task {
     void Destructor() {
         delete[] Step;
         delete[] list;
-        delete[] listS;
     }
 
     void  SortSubsequence(int sign, union Int32* arr, union Int32* tmp, int left, int right) {
@@ -58,8 +55,8 @@ class Task {
                 a += 2;
             } else {
                 arr[i] = rightArr[b];
-            }
             b += 2;
+            }
             i += 2;
         }
         if (a == left) {
@@ -199,6 +196,10 @@ class Task {
 };
 int main(int argc, char **argv) {
     Task t;
-    t.RunTask(argv);
+    if (argc == 3) {
+        t.RunTask(argv);
+    } else {
+        std::cout << "Command line : <project> <size> <threads>\n";
+    }
     return 0;
 }
