@@ -1,7 +1,5 @@
 // Copyright 2019 Lalykin Oleg
 
-
-//#include <omp.h>
 #include <iostream>
 #include <string>
 #include <cstdint>
@@ -13,65 +11,65 @@ union Int32 {
     unsigned char bytes[4];
 };
 
-class parRadix
-{
-    union Int32* arr;
-    int* step;
-public:
-    parRadix(union Int32* tarr, int* tstep ):arr(tarr),step(tstep) {}
+class parRadix {
+ public:
 
-    void radix_sort_byte(union Int32* arr, int left, int right, int numByte, const int base) const{
-        union Int32 *tmp = new union Int32[right - left];
-        int* count = new int[base];
-        for (int i = 0; i < base + 2; i++) {
-            count[i] = 0;
-        }
-        for (int i = left; i < right; i++) {
-            count[arr[i].bytes[numByte] + 1]++;
-        }
-        for (int i = 1; i < base; i++) {
-            count[i] += count[i - 1];
-        }
-        for (int i = left; i < right; i++) {
-            tmp[count[arr[i].bytes[numByte]]++] = arr[i];
-        }
-        for (int i = left; i < right; i++) {
-            arr[i] = tmp[i - left];
-        }
-    }
+     union Int32* arr;
+     int* step;
+     parRadix(union Int32* tarr, int* tstep) :arr(tarr), step(tstep) {}
 
-    void radix_sort(union Int32* arr, int left, int right) const{
-        int i;
-        unsigned *subArr = reinterpret_cast<unsigned*>(arr);
-        for (i = left; i < right; i++) {
-            subArr[i] = subArr[i] ^ (-2147483647 - 1);
-        }
-        for (i = 0; i < 4; i++) {
-            radix_sort_byte(arr, left, right, i, 256);
-        }
-        for (i = left; i < right; i++) {
-            subArr[i] = subArr[i] ^ (-2147483647 - 1);
-        }
-    }
+     void radix_sort_byte(union Int32* arr, int left, int right, int numByte, const int base) const {
+         union Int32 *tmp = new union Int32[right - left];
+         int* count = new int[base];
+         for (int i = 0; i < base + 2; i++) {
+             count[i] = 0;
+         }
+         for (int i = left; i < right; i++) {
+             count[arr[i].bytes[numByte] + 1]++;
+         }
+         for (int i = 1; i < base; i++) {
+             count[i] += count[i - 1];
+         }
+         for (int i = left; i < right; i++) {
+             tmp[count[arr[i].bytes[numByte]]++] = arr[i];
+         }
+         for (int i = left; i < right; i++) {
+             arr[i] = tmp[i - left];
+         }
+     }
 
-    void operator() (const tbb::blocked_range<int>& range) const
-    {
-        for (int i = range.begin(); i != range.end(); i++)
-        {
-            radix_sort(arr, step[i], step[i + 1]);
-        }
-    }
+     void radix_sort(union Int32* arr, int left, int right) const {
+         int i;
+         unsigned *subArr = reinterpret_cast<unsigned*>(arr);
+         for (i = left; i < right; i++) {
+             subArr[i] = subArr[i] ^ (-2147483647 - 1);
+         }
+         for (i = 0; i < 4; i++) {
+             radix_sort_byte(arr, left, right, i, 256);
+         }
+         for (i = left; i < right; i++) {
+             subArr[i] = subArr[i] ^ (-2147483647 - 1);
+         }
+     }
+
+     void operator() (const tbb::blocked_range<int>& range) const
+     {
+         for (int i = range.begin(); i != range.end(); i++)
+         {
+             radix_sort(arr, step[i], step[i + 1]);
+         }
+     }
 };
 
-class parSortSubsequence
-{
+class parSortSubsequence {
+ public:
+
     union Int32* arr;
     union Int32* tmp;
     int* step;
     int level;
-
-public:
-    parSortSubsequence(union Int32* tarr, int* tstep,int tlevel, union Int32* ttmp) :arr(tarr), step(tstep),level(tlevel), tmp(ttmp) {}
+    parSortSubsequence(union Int32* tarr, int* tstep,int tlevel, union Int32* ttmp) :arr(tarr),
+        step(tstep),level(tlevel), tmp(ttmp) {}
 
     void  SortSubsequence(int sign, union Int32* arr, union Int32* tmp, int left, int right) const {
         for (int i = sign; i < left; i += 2) {
@@ -116,12 +114,12 @@ public:
     }
 };
 
-class parPairCom
-{
+class parPairCom {
+ public:
+
     union Int32* arr;
     int size;
     int* step;
-public:
     parPairCom(union Int32* tarr, int tsize, int* tstep) :arr(tarr), size(tsize), step(tstep) {}
 
     void PairComparison(union Int32* arr, int size) const{
@@ -353,9 +351,3 @@ int main(int argc, char **argv) {
     }
     return 0;
 }
-//int main(int argc, char* argv[]) {
-//    tbb::task_scheduler_init init(4);
-//    init.terminate();
-//   
-//    return 0;
-//}
