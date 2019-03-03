@@ -186,8 +186,7 @@ class Task {
         }
     }
 
-    void PrintTimeRes(double ts, double tp)
-    {
+    void PrintTimeRes(double ts, double tp) {
         std::cout << "\n\n Time Serial Radix: " << ts;
         std::cout << "\n\n Time Parallel Radix with Batcher: " << tp;
         std::cout << "\n\n Jump: " << ts / tp;
@@ -225,7 +224,7 @@ class Task {
         PrintList(" After merge: ", list, Size);
 
         PrintTimeRes(TimeS, TimeP);
-        Check(listS,list, Size);
+        Check(listS, list, Size);
         Destructor();
     }
 
