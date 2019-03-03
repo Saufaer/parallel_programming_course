@@ -64,8 +64,8 @@ class parSortSubsequence {
     union Int32* tmp;
     int* step;
     int level;
-    parSortSubsequence(union Int32* tarr, int* tstep,int tlevel, union Int32* ttmp) :arr(tarr),
-        step(tstep),level(tlevel), tmp(ttmp) {}
+    parSortSubsequence(union Int32* tarr, int* tstep, int tlevel, union Int32* ttmp) :arr(tarr),
+        step(tstep), level(tlevel), tmp(ttmp) {}
 
     void  SortSubsequence(int sign, union Int32* arr, union Int32* tmp, int left, int right) const {
         for (int i = sign; i < left; i += 2) {
@@ -81,8 +81,7 @@ class parSortSubsequence {
             if (tmp[a].x <= rightArr[b].x) {
                 arr[i] = tmp[a];
                 a += 2;
-            }
-            else {
+            } else {
                 arr[i] = rightArr[b];
                 b += 2;
             }
@@ -92,8 +91,7 @@ class parSortSubsequence {
             for (int j = b; j < right; j += 2, i += 2) {
                 arr[i] = rightArr[j];
             }
-        }
-        else {
+        } else {
             for (int j = a; j < left; j += 2, i += 2) {
                 arr[i] = tmp[j];
             }
@@ -116,7 +114,7 @@ class parPairCom {
     int* step;
     parPairCom(union Int32* tarr, int tsize, int* tstep) :arr(tarr), size(tsize), step(tstep) {}
 
-    void PairComparison(union Int32* arr, int size) const{
+    void PairComparison(union Int32* arr, int size) const {
         for (int i = 1; i < (size + 1) / 2; i++) {
             if (arr[2 * i].x < arr[2 * i - 1].x) {
                 int tmp = arr[2 * i - 1].x;
@@ -178,10 +176,8 @@ class Task {
         step[threads] = size;
 
         while ((level != 1)) {
-
             tbb::task_scheduler_init init(threads);
             tbb::parallel_for(tbb::blocked_range<int>(0, level), parSortSubsequence(list, step, level, tmp));
-
             tbb::parallel_for(tbb::blocked_range<int>(0, level), parPairCom(list, size, step));
             init.terminate();
 
@@ -256,7 +252,7 @@ class Task {
 
         tbb::tick_count startP = tbb::tick_count::now();
 
-        tbb::task_scheduler_init init(threads); 
+        tbb::task_scheduler_init init(threads);
         tbb::parallel_for(tbb::blocked_range<int>(0, threads), radix);
         init.terminate();
 
