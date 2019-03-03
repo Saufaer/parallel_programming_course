@@ -1,10 +1,10 @@
 // Copyright 2019 Lalykin Oleg
 
+#include <tbb/tbb.h>
 #include <iostream>
 #include <string>
 #include <cstdint>
 #include <limits>
-#include <tbb/tbb.h>
 
 union Int32 {
     int x;
@@ -13,7 +13,6 @@ union Int32 {
 
 class parRadix {
  public:
-
      union Int32* arr;
      int* step;
      parRadix(union Int32* tarr, int* tstep) :arr(tarr), step(tstep) {}
@@ -52,10 +51,8 @@ class parRadix {
          }
      }
 
-     void operator() (const tbb::blocked_range<int>& range) const
-     {
-         for (int i = range.begin(); i != range.end(); i++)
-         {
+     void operator() (const tbb::blocked_range<int>& range) const {
+         for (int i = range.begin(); i != range.end(); i++) {
              radix_sort(arr, step[i], step[i + 1]);
          }
      }
@@ -63,7 +60,6 @@ class parRadix {
 
 class parSortSubsequence {
  public:
-
     union Int32* arr;
     union Int32* tmp;
     int* step;
@@ -104,8 +100,7 @@ class parSortSubsequence {
         }
     }
 
-    void operator() (const tbb::blocked_range<int>& range) const
-    {
+    void operator() (const tbb::blocked_range<int>& range) const {
         for (int i = range.begin(); i != range.end(); i++) {
             int t = i % 2;
             SortSubsequence(t, arr + step[i - t], tmp + step[i],
@@ -116,7 +111,6 @@ class parSortSubsequence {
 
 class parPairCom {
  public:
-
     union Int32* arr;
     int size;
     int* step;
@@ -132,20 +126,16 @@ class parPairCom {
         }
     }
 
-    void operator() (const tbb::blocked_range<int>& range) const
-    {
-        for (int i = range.begin(); i != range.end(); i++)
-        {
+    void operator() (const tbb::blocked_range<int>& range) const {
+        for (int i = range.begin(); i != range.end(); i++) {
         if (i % 2 != 0) {
             PairComparison(arr + step[i - 1], step[i + 1] - step[i - 1]);
         }
-            
         }
     }
 };
 class Task {
  public:
-
     union Int32 *list;
     union Int32 *listS;
     int *Step;
