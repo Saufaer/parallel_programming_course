@@ -61,8 +61,8 @@ class parRadix {
 class parSortSubsequence {
  public:
     union Int32* arr;
-    union Int32* tmp;
     int* step;
+    union Int32* tmp;
 
     parSortSubsequence(union Int32* tarr, int* tstep, union Int32* ttmp) :arr(tarr),
         step(tstep), tmp(ttmp) {}
