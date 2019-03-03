@@ -63,9 +63,9 @@ class parSortSubsequence {
     union Int32* arr;
     union Int32* tmp;
     int* step;
-    int level;
-    parSortSubsequence(union Int32* tarr, int* tstep, int tlevel, union Int32* ttmp) :arr(tarr),
-        step(tstep), level(tlevel), tmp(ttmp) {}
+
+    parSortSubsequence(union Int32* tarr, int* tstep, union Int32* ttmp) :arr(tarr),
+        step(tstep), tmp(ttmp) {}
 
     void  SortSubsequence(int sign, union Int32* arr, union Int32* tmp, int left, int right) const {
         for (int i = sign; i < left; i += 2) {
@@ -177,7 +177,7 @@ class Task {
 
         while ((level != 1)) {
             tbb::task_scheduler_init init(threads);
-            tbb::parallel_for(tbb::blocked_range<int>(0, level), parSortSubsequence(list, step, level, tmp));
+            tbb::parallel_for(tbb::blocked_range<int>(0, level), parSortSubsequence(list, step, tmp));
             tbb::parallel_for(tbb::blocked_range<int>(0, level), parPairCom(list, size, step));
             init.terminate();
 
