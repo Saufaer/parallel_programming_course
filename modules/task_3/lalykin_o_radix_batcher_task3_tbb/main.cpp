@@ -174,10 +174,15 @@ class Task {
             step[i] = i * size / threads + (i * size / threads) % 2;
         }
         step[threads] = size;
-        tbb::task_scheduler_init init(threads);
+        
         while ((level != 1)) {
+            tbb::task_scheduler_init init(threads);
             tbb::parallel_for(tbb::blocked_range<int>(0, level), parSortSubsequence(list, step, tmp));
+            init.terminate();
+            init.initialize(threads);
             tbb::parallel_for(tbb::blocked_range<int>(0, level), parPairCom(list, size, step));
+            init.terminate();
+
             level = level / 2;
             restep = new int[level];
             restep[0] = step[0];
@@ -190,7 +195,7 @@ class Task {
             }
             step[level] = size;
         }
-        init.terminate();
+        
     }
 
     void Check(union Int32* arr1, union Int32* arr2, int size) {
